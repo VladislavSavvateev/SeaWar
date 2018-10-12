@@ -17,8 +17,8 @@
 
 3. Making turn:
 	request: x, y - 1 byte each
-	response: 1 byte (47 - miss, 69 - hit)
+	response: 1 byte (47 - miss, 69 - hit, 34 - won)
 
 4. Waiting for opponent's turn:
 	request: none
-	response: x, y - hit cell
+	response: x, y - hit/miss cell OR 69 if you lost :)
