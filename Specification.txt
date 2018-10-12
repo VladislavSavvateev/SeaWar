@@ -7,6 +7,7 @@
 			send own field
 		b) Join the room:
 			request: 69 and 2 byte code
+			response: 69 - found, 47 - not found (socket close))
 			send own field
 			user that joined makes turn
 
