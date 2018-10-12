@@ -1,0 +1,23 @@
+1. Connection:
+	Identification bytes: 34, 47, 69;
+	Ether of:
+		a) Create room:
+			request: 34
+			response: 2 byte code
+			send own field
+		b) Join the room:
+			request: 69 and 2 byte code
+			send own field
+			user that joined makes turn
+
+2. Sending field:
+	request: 8 bytes - rows
+	response: 34 - opponent's turn, 69 - your turn
+
+3. Making turn:
+	request: x, y - 1 byte each
+	response: 1 byte (47 - miss, 69 - hit)
+
+4. Waiting for opponent's turn:
+	request: none
+	response: x, y - hit cell
