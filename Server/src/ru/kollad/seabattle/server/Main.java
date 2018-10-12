@@ -19,11 +19,17 @@ public class Main {
 		while (!Thread.interrupted()) {
 			try {
 				Socket socket = serverSocket.accept();
+				System.out.print("Fool connected: ");
+				System.out.println(socket);
 				switch (socket.getInputStream().read()) {
 					case 34:
 						random.nextBytes(buffer);
-						rooms.put(ByteBuffer.wrap(buffer).getInt(), new Room(socket));
+
+						rooms.put(buffer[0] + 1000 * buffer[1], new Room(socket));
 						socket.getOutputStream().write(buffer);
+						socket.getOutputStream().flush();
+
+						System.out.println("Fool created new room: " + buffer[0] + ' ' + buffer[1]);
 						break;
 					case 69:
 						int i = socket.getInputStream().read(buffer);
@@ -33,14 +39,20 @@ public class Main {
 							break;
 						}
 
-						Room room = rooms.remove(ByteBuffer.wrap(buffer).getInt());
+						Room room = rooms.remove(buffer[0] + 1000 * buffer[1]);
 						if (room == null) {
 							socket.getOutputStream().write(47);
 							socket.close();
 							break;
 						}
 
+						socket.getOutputStream().write(69);
+						socket.getOutputStream().flush();
+
 						room.setOpponent(socket);
+
+						System.out.println("Foold joined a room");
+
 						break;
 				}
 			} catch (SocketTimeoutException ignored) {

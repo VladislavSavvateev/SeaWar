@@ -19,8 +19,15 @@ public class Room extends Thread {
 	@Override
 	public void run() {
 		try {
-			byte[] field1 = receiveField(socket1, 34);
-			byte[] field2 = receiveField(socket2, 69);
+			byte[] field1 = receiveField(socket1);
+			byte[] field2 = receiveField(socket2);
+
+			socket1.getOutputStream().write(34);
+			socket1.getOutputStream().flush();
+
+			socket2.getOutputStream().write(69);
+			socket2.getOutputStream().flush();
+
 			boolean whatever = false;
 			while (!Thread.interrupted()) {
 				if (whatever) turn(socket1, socket2, field2);
@@ -39,13 +46,10 @@ public class Room extends Thread {
 		}
 	}
 
-	private byte[] receiveField(Socket socket, int response) throws IOException {
+	private byte[] receiveField(Socket socket) throws IOException {
 		byte[] bytes = new byte[8];
 		if (socket.getInputStream().read(bytes) != bytes.length)
 			throw new IOException();
-
-		socket.getOutputStream().write(response);
-		socket.getOutputStream().flush();
 
 		return bytes;
 	}
